@@ -1,0 +1,25 @@
+# Customer Support Agent
+
+---
+
+- **Purpose:** A customer support agent designed to handle customer inquiries, provide assistance, and ensure excellent customer service. This agent can be customized for any business or industry.
+
+- **Communication Flows:**
+  - **Between Agents:** 
+    - Single agent system - no inter-agent communication required.
+  - **Agent to User Communication:** Direct one-on-one communication with customers through terminal or API interface.
+
+---
+
+## Customer Support Agent
+
+### **Role within the Agency**
+
+Primary point of contact for customer inquiries. Handles customer questions, provides information, resolves issues, and ensures customer satisfaction.
+
+### Tools
+
+- No tools required for this initial setup. Tools can be added later as needed.
+
+---
+
