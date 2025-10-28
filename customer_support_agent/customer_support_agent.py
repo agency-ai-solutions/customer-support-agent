@@ -44,6 +44,9 @@ def load_openapi_tools():
     if not schema_content:
         return tools
     
+    # Clean the schema content (strip whitespace)
+    schema_content = schema_content.strip()
+    
     # Get API key from environment
     api_key = os.getenv("CUSTOMER_SUPPORT_API_KEY")
     

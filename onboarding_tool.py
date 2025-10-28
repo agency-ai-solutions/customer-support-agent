@@ -92,6 +92,7 @@ class OnboardingTool(BaseTool):
         Saves the configuration as a Python file with a config object
         """
         import json
+        import re
 
         tool_dir = os.path.dirname(os.path.abspath(__file__))
         config_path = os.path.join(tool_dir, "onboarding_config.py")
@@ -99,10 +100,22 @@ class OnboardingTool(BaseTool):
         config = self.model_dump()
 
         try:
+            # Preserve openapi_schema as-is (it needs to remain valid JSON)
+            openapi_schema = config.get("openapi_schema")
+            if openapi_schema:
+                config["openapi_schema"] = "__OPENAPI_SCHEMA_PLACEHOLDER__"
+            
             # Generate Python code with the config as a dictionary
-            # Convert JSON null to Python None
+            # Convert JSON null to Python None for non-schema fields
             json_str = json.dumps(config, indent=4)
             json_str = json_str.replace(': null', ': None').replace(': true', ': True').replace(': false', ': False')
+            
+            # Restore openapi_schema with proper escaping
+            if openapi_schema:
+                # Escape the schema string for Python
+                escaped_schema = json.dumps(openapi_schema)
+                json_str = json_str.replace('"__OPENAPI_SCHEMA_PLACEHOLDER__"', escaped_schema)
+            
             python_code = f"# Auto-generated onboarding configuration\n\nconfig = {json_str}\n"
             
             with open(config_path, "w", encoding="utf-8") as f:
@@ -120,7 +133,105 @@ if __name__ == "__main__":
         company_name="Agencii AI",
         company_overview="Agencii AI is a platform for building reliable AI agents on top of the OpenAI API. Users can create valuable solutions for their own or their clients' businesses.",
         target_audience="Users who want to build AI agents for their own or their clients' businesses, developers, entrepreneurs, and businesses looking to automate with AI.",
-        knowledge_files=[]
+        knowledge_files=[],
+        openapi_schema="""
+        {
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Send Project Info",
+    "description": "Send customer support request.",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://us-central1-openai-widget.cloudfunctions.net/httpCreateContact"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "description": "Use this function to send a new support ticket or feedback from the customer. Make sure to ask the customer for all the information required before using this tool.",
+        "operationId": "sendSupportRequest",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendProjectInfo"
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SendProjectInfo": {
+        "properties": {
+          "firstName": {
+            "description": "First name of the customer.",
+            "title": "Firstname",
+            "type": "string"
+          },
+          "lastName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Last name of the customer.",
+            "title": "Lastname"
+          },
+          "email": {
+            "description": "Email address of the customer.",
+            "title": "Email",
+            "type": "string"
+          },
+          "inquiryType": {
+            "description": "Type of the inquiry.",
+            "enum": [
+              "technicalSupport",
+              "salesInquiry",
+              "generalQuestion",
+              "feedback"
+            ],
+            "title": "Inquirytype",
+            "type": "string"
+          },
+          "message": {
+            "description": "Message with information about their request.",
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "firstName",
+          "inquiryType",
+          "lastName",
+          "message"
+        ],
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey"
+      }
+    }
+  }
+}"""
     )
     print(tool.run())
 
