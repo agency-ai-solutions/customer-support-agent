@@ -33,7 +33,7 @@ Company Overview: {company_overview}
 Your task is to determine if a user's question is relevant to customer support for {company_name}.
 
 IMPORTANT RULES:
-1. Only classify as IRRELEVANT (is_relevant: false) if the question is CLEARLY about something completely unrelated (e.g., "help me write an essay", "what's the weather", "solve this math problem")
+1. Only classify as IRRELEVANT (is_relevant: false) if the question is CLEARLY about something completely unrelated (e.g., "help me write an essay", "what's the weather", "solve this math problem", "who is the president of the United States")
 2. Classify as RELEVANT (is_relevant: true) if:
    - It's about the company, products, or services
    - It's a follow-up question (e.g., "can you explain more?", "what do you mean?")
