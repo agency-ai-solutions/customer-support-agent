@@ -18,20 +18,6 @@ Paste your OpenAPI schema and the agent automatically gains access to your suppo
 
 Built-in guardrail agent that validates incoming questions are actually about your business—not random internet queries for public facing websites.
 
-### Fully Customizable
-
-Configure everything in one simple form:
-
-- Agent name and description
-- Company information
-- Response format and tone
-- Support contact details
-- Custom context and instructions
-
-### Choice of Models
-
-Select between GPT-4.1 (fast and efficient) or GPT-5 (most capable, requires verified OpenAI org).
-
 ---
 
 ## 💼 Perfect For
@@ -89,7 +75,7 @@ Once deployed, your agent automatically receives updates whenever we ship improv
 
 Questions? Need help with this agent?
 
-**Reply under this release post in our community:** [skool.com/agency-ai](https://skool.com/agency-ai)
+**Reply under this release post in our community:** [Skool Post](https://agencii.ai/marketplace/PtustxIJTbCzpHM5p3y7/)
 
 ## 🚀 Ready to Deploy?
 
